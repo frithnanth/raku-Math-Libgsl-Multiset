@@ -1,0 +1,60 @@
+#!/usr/bin/env perl6
+
+use Test;
+use lib 'lib';
+use Math::Libgsl::Raw::Multiset :ALL;
+use Math::Libgsl::Constants;
+use NativeCall;
+
+subtest {
+  my $m = gsl_multiset_alloc(4, 3);
+  isa-ok $m, gsl_multiset, 'allocate multiset structure';
+  lives-ok { gsl_multiset_init_first($m) }, 'initialize to first multiset';
+  is-deeply $m.data[^3], (0, 0, 0), 'first multiset';
+  lives-ok { gsl_multiset_init_last($m) }, 'initialize to last multiset';
+  is-deeply $m.data[^3], (3, 3, 3), 'last multiset';
+  my $md = gsl_multiset_alloc(4, 3);
+  ok gsl_multiset_memcpy($md, $m) == GSL_SUCCESS, 'copy multiset';
+  is-deeply $md.data[^3], (3, 3, 3), 'verify copy';
+  lives-ok { gsl_multiset_free($m) }, 'free multiset structure';
+  gsl_multiset_free($md);
+}, 'raw - memory operations';
+
+subtest {
+  my $m = gsl_multiset_alloc(4, 2);
+  gsl_multiset_init_first($m);
+  ok gsl_multiset_get($m, 1) == 0, 'get element';
+  gsl_multiset_free($m);
+}, 'raw - accessing elements';
+
+subtest {
+  my $m = gsl_multiset_alloc(4, 2);
+  ok gsl_multiset_n($m) == 4, 'range';
+  ok gsl_multiset_k($m) == 2, 'number of elements';
+  gsl_multiset_init_first($m);
+  ok gsl_multiset_valid($m) == GSL_SUCCESS, 'the multiset is valid';
+  gsl_multiset_free($m);
+}, 'raw - properties';
+
+subtest {
+  my $m = gsl_multiset_alloc(4, 2);
+  gsl_multiset_init_first($m);
+  is-deeply $m.data[^2], (0, 0), 'first multiset';
+  gsl_multiset_next($m);
+  is-deeply $m.data[^2], (0, 1), 'next multiset';
+  gsl_multiset_prev($m);
+  is-deeply $m.data[^2], (0, 0), 'previous multiset';
+}, 'raw - functions';
+
+subtest {
+  my $filename = 't/raw-multiset.dat';
+  LEAVE { with $filename.IO { .unlink if .e } }
+  my $c = gsl_multiset_alloc(4, 2);
+  gsl_multiset_init_first($c);
+  ok mgsl_multiset_fwrite($filename, $c) == GSL_SUCCESS, 'can write data to file';
+  ok mgsl_multiset_fread($filename, $c) == GSL_SUCCESS, 'can read data from file';
+  is-deeply $c.data[^2], (0, 0), 'verify data';
+  gsl_multiset_free($c);
+}, 'raw - IO';
+
+done-testing;

@@ -1,0 +1,46 @@
+#!/usr/bin/env perl6
+
+use Test;
+use lib 'lib';
+use Math::Libgsl::Multiset;
+use Math::Libgsl::Exception;
+use Math::Libgsl::Constants;
+
+subtest {
+  my Math::Libgsl::Multiset $m .= new(:n(5), :k(2));
+  isa-ok $m, Math::Libgsl::Multiset, 'new using pairs';
+  ok $m.get(1) == 0, 'get an element';
+  throws-like { $m.get(10) }, X::Libgsl, message => /'out of range'/, 'fails if requested element is out of range';
+  my Math::Libgsl::Multiset $m1 .= new(6, 3);
+  isa-ok $m1, Math::Libgsl::Multiset, 'new from simple values';
+  lives-ok { $m1.init }, 'init from top';
+  ok $m1.get(1) == 0, 'get an element';
+  lives-ok { $m1.init: :start(BOTTOM) }, 'init from bottom';
+  ok $m1.get(1) == 5, 'get an element';
+  is-deeply $m1.size, (6, 3), 'get multiset parameters';
+  ok $m1.is-valid == True, 'check validity';
+}, 'basics';
+
+subtest {
+  my Math::Libgsl::Multiset $m .= new(:n(5), :k(2));
+  lives-ok { $m.next }, 'can get next multiset';
+  is-deeply $m.all, (0, 1), 'all the elements of the current multiset ok';
+  lives-ok { $m.prev }, 'can get previous multiset';
+  is-deeply $m.all, (0, 0), 'all the elements of the current multiset ok';
+  $m.init;
+  nok $m.bprev, 'bprev returns False when there is no previous multiset';
+  while $m.bnext {}
+  nok $m.bnext, 'bnext returns False at end of available multiset';
+}, 'next & prev';
+
+subtest {
+  my Math::Libgsl::Multiset $m .= new(:n(5), :k(2));
+  $m.next;
+  my $filename = 't/multiset.dat';
+  LEAVE { with $filename.IO { .unlink if .e } }
+  ok $m.write($filename) == GSL_SUCCESS, 'can write data to file';
+  ok $m.read($filename) == GSL_SUCCESS, 'can read data from file';
+  is-deeply $m.all, (0, 1), 'verify data';
+}, 'IO';
+
+done-testing;

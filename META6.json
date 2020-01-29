@@ -1,0 +1,29 @@
+{
+  "auth" : "cpan:FRITH",
+  "authors" : [
+    "Fernando Santagata"
+  ],
+  "build-depends" : [ ],
+  "depends" : [
+    "LibraryMake",
+    "Math::Libgsl::Constants"
+  ],
+  "description" : "An interface to libgsl, the Gnu Scientific Library - Multisets.",
+  "license" : "Artistic-2.0",
+  "name" : "Math::Libgsl::Multiset",
+  "perl" : "6.c",
+  "provides" : {
+    "Math::Libgsl::Multiset" : "lib/Math/Libgsl/Multiset.rakumod",
+    "Math::Libgsl::Raw::Multiset" : "lib/Math/Libgsl/Raw/Multiset.rakumod"
+  },
+  "resources" : [
+    "libraries/gslhelper"
+  ],
+  "source-url" : "git://github.com/frithnanth/perl6-Math-Libgsl-Multiset.git",
+  "tags" : [
+    "math",
+    "nativecall"
+  ],
+  "test-depends" : [ ],
+  "version" : "0.0.1"
+}
