@@ -19,7 +19,7 @@
   "resources" : [
     "libraries/gslhelper"
   ],
-  "source-url" : "git://github.com/frithnanth/perl6-Math-Libgsl-Multiset.git",
+  "source-url" : "git://github.com/frithnanth/raku-Math-Libgsl-Multiset.git",
   "tags" : [
     "math",
     "nativecall"
