@@ -1,6 +1,6 @@
 use v6.c;
 
-unit class Math::Libgsl::Multiset:ver<0.0.1>:auth<zef:FRITH>;
+unit class Math::Libgsl::Multiset:ver<0.0.2>:auth<zef:FRITH>;
 
 use Math::Libgsl::Raw::Multiset :ALL;
 use Math::Libgsl::Exception;
