@@ -1,29 +1,40 @@
 {
-  "auth" : "cpan:FRITH",
-  "authors" : [
+  "auth": "zef:FRITH",
+  "authors": [
     "Fernando Santagata"
   ],
-  "build-depends" : [ ],
-  "depends" : [
-    "LibraryMake",
+  "build": {
+    "makefile-variables": {
+      "gslhelper": {
+        "resource": "libraries/gslhelper"
+      }
+    }
+  },
+  "build-depends": [
+    "Distribution::Builder::MakeFromJSON"
+  ],
+  "builder": "Distribution::Builder::MakeFromJSON",
+  "depends": [
+    "Distribution::Builder::MakeFromJSON",
     "Math::Libgsl::Constants"
   ],
-  "description" : "An interface to libgsl, the Gnu Scientific Library - Multisets.",
-  "license" : "Artistic-2.0",
-  "name" : "Math::Libgsl::Multiset",
-  "perl" : "6.c",
-  "provides" : {
-    "Math::Libgsl::Multiset" : "lib/Math/Libgsl/Multiset.rakumod",
-    "Math::Libgsl::Raw::Multiset" : "lib/Math/Libgsl/Raw/Multiset.rakumod"
+  "description": "An interface to libgsl, the Gnu Scientific Library - Multisets.",
+  "license": "Artistic-2.0",
+  "name": "Math::Libgsl::Multiset",
+  "perl": "6.c",
+  "provides": {
+    "Math::Libgsl::Multiset": "lib/Math/Libgsl/Multiset.rakumod",
+    "Math::Libgsl::Raw::Multiset": "lib/Math/Libgsl/Raw/Multiset.rakumod"
   },
-  "resources" : [
+  "resources": [
     "libraries/gslhelper"
   ],
-  "source-url" : "git://github.com/frithnanth/raku-Math-Libgsl-Multiset.git",
-  "tags" : [
+  "source-url": "git://github.com/frithnanth/raku-Math-Libgsl-Multiset.git",
+  "tags": [
     "math",
     "nativecall"
   ],
-  "test-depends" : [ ],
-  "version" : "0.0.1"
+  "test-depends": [
+  ],
+  "version": "0.0.1"
 }
