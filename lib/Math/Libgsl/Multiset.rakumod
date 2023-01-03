@@ -22,7 +22,7 @@ method init(:$start? = TOP) {
   given $start {
     when TOP { gsl_multiset_init_first($!m) }
     when BOTTOM { gsl_multiset_init_last($!m) }
-    default { fail X::Libgsl.new: errno => GSL_FAILURE, error => "Invalid starting point" }
+    default { X::Libgsl.new(errno => GSL_FAILURE, error => "Invalid starting point").throw }
   }
   self
 }
@@ -44,14 +44,14 @@ method all(--> Seq) { $!m.data[^gsl_multiset_k($!m)] }
 method next
 {
   my $ret = gsl_multiset_next($!m);
-  fail X::Libgsl.new: errno => $ret, error => "Can't get next multiset" if $ret ≠ GSL_SUCCESS;
+  X::Libgsl.new(errno => $ret, error => "Can't get next multiset").throw if $ret ≠ GSL_SUCCESS;
   self
 }
 
 method prev
 {
   my $ret = gsl_multiset_prev($!m);
-  fail X::Libgsl.new: errno => $ret, error => "Can't get previous multiset" if $ret ≠ GSL_SUCCESS;
+  X::Libgsl.new(errno => $ret, error => "Can't get previous multiset").throw if $ret ≠ GSL_SUCCESS;
   self
 }
 
@@ -112,6 +112,8 @@ This package provides both the low-level interface to the C library (Raw) and a 
 
 The constructor accepts two parameters: the total number of elements in the set and the number of elements chosen from the set; the parameters can be passed as Pair-s or as single values.
 The multiset object is already initialized in lexicographically first multiset, i.e. 0 repeated $k times.
+
+All the following methods I<throw> on error if they return B<self>, otherwise they I<fail> on error.
 
 =head3 init(:$start? = TOP)
 

@@ -25,6 +25,8 @@ This package provides both the low-level interface to the C library (Raw) and a 
 
 The constructor accepts two parameters: the total number of elements in the set and the number of elements chosen from the set; the parameters can be passed as Pair-s or as single values. The multiset object is already initialized in lexicographically first multiset, i.e. 0 repeated $k times.
 
+All the following methods *throw* on error if they return **self**, otherwise they *fail* on error.
+
 ### init(:$start? = TOP)
 
 This method initialize the multiset object and returns **self**. The default is to initialize the object in lexicographically first multiset, but by specifying the optional parameter **$start** as **BOTTOM** the initialization is performed in the lexicographically last multiset, i.e. $n − 1 repeated $k times. TOP and BOTTOM are declared as values of the Starting-point enum.

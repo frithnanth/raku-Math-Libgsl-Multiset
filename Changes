@@ -1,6 +1,7 @@
 Revision history for Math-Libgsl-Multiset
 
 {{$NEXT}}
+    - Methods that return self throw on error, instead of failing
 
 0.0.2  2022-12-03T23:42:21+01:00
     - Use zef ecosystem
