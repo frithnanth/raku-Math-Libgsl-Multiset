@@ -1,6 +1,8 @@
 Revision history for Math-Libgsl-Multiset
 
 {{$NEXT}}
+
+0.1.1  2024-02-05T11:34:15Z
     - Drop the obsolete .absolute call :-)
 
 0.1.0  2023-01-03T12:54:09Z
